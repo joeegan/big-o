@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Big O</title>
+  <script src="https://www.gstatic.com/charts/loader.js"></script>
+  <meta charset="UTF-8">
+  <title>Big O</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -10,38 +11,7 @@
   <p>How to describe the efficiency of algorithms.</p>
   <h2>O(n)</h2>
   <p>The algorithm is as efficient as the size of it's data.</p>
-  <svg version="1.2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="graph" aria-labelledby="title" role="img">
-    <title id="title">O(n) runtime</title>
-    <g class="grid x-grid" id="xGrid">
-      <line x1="50" x2="450" y1="200" y2="200"></line>
-    </g>
-    <g class="grid y-grid" id="yGrid">
-      <line x1="50" x2="50" y1="0" y2="200"></line>
-    </g>
-    <g class="labels x-labels">
-      <text x="50" y="212">0</text>
-      <text x="150" y="212">1</text>
-      <text x="250" y="212">2</text>
-      <text x="350" y="212">3</text>
-      <text x="450" y="212">4</text>
-      <text x="550" y="240" class="label-title">Size of array</text>
-    </g>
-    <g class="labels y-labels">
-      <text x="48" y="0">4</text>
-      <text x="48" y="50">3</text>
-      <text x="48" y="100">2</text>
-      <text x="48" y="150">1</text>
-      <text x="48" y="200">0</text>
-      <text x="140" y="200" class="label-title" transform="translate(-180, 200) rotate(-90)">Number of operations</text>
-    </g>
-    <g class="data" data-setname="Our first data set">
-      <circle cx="50" cy="200" r="4"></circle>
-      <circle cx="150" cy="150" r="4"></circle>
-      <circle cx="250" cy="100" r="4"></circle>
-      <circle cx="350" cy="50" r="4"></circle>
-      <circle cx="450" cy="0" r="4"></circle>
-    </g>
-  </svg>
-	<script src="app.js"></script>
+  <div id="chart_div" style="width: 900px; height: 500px;"></div>
+  <script src="app.js"></script>
 </body>
 </html>
