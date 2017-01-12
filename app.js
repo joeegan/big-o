@@ -12,10 +12,31 @@ function itemInList(itemToVerify, list) {
   return iterationCount;
 }
 
+function allCombinations(list) {
+  let iterationCount = 0;
+  var results = [];
+  for (let item of list) {
+    for (let innerItem of list) {
+      results.push(item, innerItem);
+      iterationCount++;
+    }
+  }
+  // We'd usually return results, but seen as we are just interested in efficiency...
+  return iterationCount;
+}
+
 function oN(n) {
   const results = [['Operations', 'Array length']];
   for (var i = 0; i < n+1; i++) {
     results.push([i, itemInList(i, new Array(i))]);
+  }
+  return results;
+}
+
+function oNTwo(n) {
+  const results = [['Operations', 'Array length']];
+  for (var i = 0; i < n+1; i++) {
+    results.push([i, allCombinations(new Array(i))]);
   }
   return results;
 }
@@ -26,9 +47,12 @@ function chart(element, results) {
   function drawChart() {
     var data = google.visualization.arrayToDataTable(results);
     var options = {
-      title: 'O(n) runtime, Linear',
+      fontName: 'Times-Roman',
+      vAxis: {
+
+      },
       hAxis: {title: 'Length of array', minValue: 0, maxValue: 20},
-      vAxis: {title: 'Operations', minValue: 0, maxValue: 150},
+      vAxis: {title: 'Operations', minValue: 0},
       legend: 'none'
     };
 
@@ -39,5 +63,6 @@ function chart(element, results) {
 }
 
 window.onload = function() {
-  chart(document.getElementById('chart_div'), oN(20));
+  chart(document.getElementById('chart_div_on'), oN(20));
+  chart(document.getElementById('chart_div_on_two'), oNTwo(20));
 }

@@ -1,40 +1,23 @@
 body {
-  font-family: 'Open Sans', sans-serif;
+  text-align: center;
 }
 
-.graph .labels.x-labels {
-  text-anchor: middle;
+h1 {
+  margin-bottom: 0;
 }
 
-.graph .labels.y-labels {
-  text-anchor: end;
+p {
+  font-style: italic;
 }
 
-.graph {
-  height: 250px;
-  width: 510px;
-  margin: 20px 0;
+div.group {
+  margin-bottom: 30px;
+}
+div {
+  margin: 0 auto;
 }
 
-.graph .grid {
-  stroke: #ccc;
-  stroke-dasharray: 0;
-  stroke-width: 1;
-}
-
-.labels {
-  font-size: 8px;
-}
-
-.label-title {
-  font-weight: bold;
-  text-transform: uppercase;
-  font-size: 8px;
-  fill: black;
-  word-break: break-all;
-}
-
-.data {
-  fill: lightblue;
-  stroke-width: 1;
+.chart {
+  width: 900px;
+  height: 400px;
 }
