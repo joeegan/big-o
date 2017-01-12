@@ -41,6 +41,14 @@ function oNTwo(n) {
   return results;
 }
 
+function oLogN(n) {
+  const results = [['Operations', 'Array length']];
+  for (var i = 0; i < n+1; i++) {
+    results.push([i, binarySearch(1, new Array(i))]);
+  }
+  return results;
+}
+
 function chart(element, results) {
   google.charts.load('current', {'packages':['corechart']});
   google.charts.setOnLoadCallback(drawChart);
@@ -48,11 +56,8 @@ function chart(element, results) {
     var data = google.visualization.arrayToDataTable(results);
     var options = {
       fontName: 'Times-Roman',
-      vAxis: {
-
-      },
-      hAxis: {title: 'Length of array'},
-      vAxis: {title: 'Operations'},
+      hAxis: {title: 'Length of array', minValue: 1},
+      vAxis: {title: 'Operations', minValue: 1},
       legend: 'none'
     };
 
@@ -65,4 +70,5 @@ function chart(element, results) {
 window.onload = function() {
   chart(document.getElementById('chart_div_on'), oN(200));
   chart(document.getElementById('chart_div_on_two'), oNTwo(200));
+  chart(document.getElementById('chart_div_o_log_n'), oLogN(200));
 }
