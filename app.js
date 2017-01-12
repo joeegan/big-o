@@ -17,7 +17,7 @@ function allCombinations(list) {
   var results = [];
   for (let item of list) {
     for (let innerItem of list) {
-      results.push(item, innerItem);
+      results.push([item, innerItem]);
       iterationCount++;
     }
   }
