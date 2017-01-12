@@ -55,11 +55,8 @@ function oLogN(n) {
 
 function oNLogN(n) {
   const results = [['Operations', 'Array length']];
-  const arr = [5,4,6,7,3,2,9,1];
-  quickSort(arr);
-
   for (var i = 0; i < n+1; i++) {
-    // results.push([i, quickSort(new Array(i).fill().map(() => getRandomInt(n)))]);
+    results.push([i, quickSort(new Array(i).fill().map(() => getRandomInt(n)))]);
   }
   return results;
 }
