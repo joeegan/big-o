@@ -25,6 +25,10 @@ function allCombinations(list) {
   return iterationCount;
 }
 
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
 function oN(n) {
   const results = [['Operations', 'Array length']];
   for (var i = 0; i < n+1; i++) {
@@ -46,6 +50,15 @@ function oLogN(n) {
   for (var i = 0; i < n+1; i++) {
     results.push([i, binarySearch(1, new Array(i))]);
   }
+  return results;
+}
+
+function oNLogN(n) {
+  const results = [['Operations', 'Array length']];
+  for (var i = 0; i < n+1; i++) {
+    results.push([i, quickSort(new Array(i).fill(getRandomInt(n)))]);
+  }
+  debugger;
   return results;
 }
 
@@ -71,4 +84,5 @@ window.onload = function() {
   chart(document.getElementById('chart_div_on'), oN(200));
   chart(document.getElementById('chart_div_on_two'), oNTwo(200));
   chart(document.getElementById('chart_div_o_log_n'), oLogN(200));
+  chart(document.getElementById('chart_div_o_n_log_n'), oNLogN(200));
 }

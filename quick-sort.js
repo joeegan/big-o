@@ -11,11 +11,13 @@ function quickSort(arr) {
   var iterationCount = 0;
 
   function partition(arr, low, high) {
+
     var pivot = arr[low];
     var leftWall = low;
     for (var i=low+1; i<high; i++) {
       iterationCount++;
       if (arr[i] < pivot) {
+
         arr = swap(arr[i], arr[leftWall], arr);
         leftWall = leftWall + 1;
       }
@@ -33,5 +35,5 @@ function quickSort(arr) {
   }
 
   sort(arr, 0, arr.length);
-  return [arr, iterationCount];
+  return iterationCount;
 }
