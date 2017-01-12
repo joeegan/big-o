@@ -11,7 +11,6 @@ function quickSort(arr) {
   var iterationCount = 0;
 
   function partition(arr, low, high) {
-
     var pivot = arr[low];
     var leftWall = low;
     for (var i=low+1; i<high; i++) {

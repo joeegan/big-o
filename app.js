@@ -58,19 +58,19 @@ function oNLogN(n) {
   for (var i = 0; i < n+1; i++) {
     results.push([i, quickSort(new Array(i).fill(getRandomInt(n)))]);
   }
-  debugger;
   return results;
 }
 
 function chart(element, results) {
   google.charts.load('current', {'packages':['corechart']});
   google.charts.setOnLoadCallback(drawChart);
+
   function drawChart() {
     var data = google.visualization.arrayToDataTable(results);
     var options = {
       fontName: 'Times-Roman',
-      hAxis: {title: 'Length of array', minValue: 1},
-      vAxis: {title: 'Operations', minValue: 1},
+      hAxis: {title: 'Length of array'},
+      vAxis: {title: 'Operations'},
       legend: 'none'
     };
 
