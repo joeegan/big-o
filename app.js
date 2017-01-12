@@ -1,5 +1,4 @@
 // O(n)
-
 function itemInList(itemToVerify, list) {
   let iterationCount = 0;
   for (let item of list) {
@@ -12,6 +11,7 @@ function itemInList(itemToVerify, list) {
   return iterationCount;
 }
 
+// O(n^2)
 function allCombinations(list) {
   let iterationCount = 0;
   var results = [];
@@ -56,7 +56,7 @@ function oLogN(n) {
 function oNLogN(n) {
   const results = [['Operations', 'Array length']];
   for (var i = 0; i < n+1; i++) {
-    results.push([i, quickSort(new Array(i).fill().map(() => getRandomInt(n)))]);
+    results.push([i, quickSort(new Array(i))]);
   }
   return results;
 }
