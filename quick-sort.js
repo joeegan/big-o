@@ -6,33 +6,25 @@ function swap(a, b, arr) {
   return arr;
 }
 
+function partition(arr, pivot) {
+  var leftArray = [];
+  var rightArray = [];
+  for (var i=0; i<arr.length-1; i++) {
+    if (arr[i] < pivot) {
+      leftArray.push(arr[i]);
+    } else {
+      rightArray.push(arr[i]);
+    }
+  }
+  return [leftArray, rightArray];
+}
+
 function quickSort(arr) {
-
-  var iterationCount = 0;
-
-  function partition(arr, low, high) {
-    var pivot = arr[low];
-    var leftWall = low;
-    for (var i=low+1; i<high; i++) {
-      iterationCount++;
-      if (arr[i] < pivot) {
-
-        arr = swap(arr[i], arr[leftWall], arr);
-        leftWall = leftWall + 1;
-      }
-    }
-    swap(pivot, arr[leftWall], arr);
-    return leftWall;
-  }
-
-  function sort(arr, low, high) {
-    if (low < high) {
-      let pivotLocation = partition(arr, low, high);
-      sort(arr, low, pivotLocation);
-      sort(arr, pivotLocation + 1, high);
-    }
-  }
-
-  sort(arr, 0, arr.length);
-  return iterationCount;
+  var pivot = arr[0];
+  // loop through the whole array, if numbers are less than pivot, they go into left partition, greater, into the right
+  let [leftArray, rightArray] = partition(arr, pivot);
+  // apply the quicksort algorithm to the first
+  [leftArray, rightArray] = partition(leftArray, leftArray[0]);
+  [leftArray, rightArray] = partition(rightArray, rightArray[0]);
+  return arr;
 }
