@@ -51,18 +51,18 @@ function chart(element, results) {
       vAxis: {
 
       },
-      hAxis: {title: 'Length of array', minValue: 0, maxValue: 20},
-      vAxis: {title: 'Operations', minValue: 0},
+      hAxis: {title: 'Length of array'},
+      vAxis: {title: 'Operations'},
       legend: 'none'
     };
 
-    var chart = new google.visualization.ScatterChart(element);
+    var chart = new google.visualization.LineChart(element);
 
     chart.draw(data, options);
   }
 }
 
 window.onload = function() {
-  chart(document.getElementById('chart_div_on'), oN(20));
-  chart(document.getElementById('chart_div_on_two'), oNTwo(20));
+  chart(document.getElementById('chart_div_on'), oN(200));
+  chart(document.getElementById('chart_div_on_two'), oNTwo(200));
 }
