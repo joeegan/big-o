@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import style from './style.css';
 import binarySearch from './binary-search/algo';
-import quickSort from './quick-sort';
+import quickSort from './quick-sort/algo';
 
 // O(n)
 function itemInList(itemToVerify, list) {
