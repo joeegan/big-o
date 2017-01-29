@@ -2,14 +2,32 @@
   "name": "big-o",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "start": "live-server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean:dist": "node_modules/.bin/rimraf dist",
+    "webpack-validator": "webpack-validator webpack.config.js --env.dev",
+    "start": "webpack-dev-server --config webpack.config.js --env.dev",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node_modules/.bin/webpack --config webpack.config.js --env.prod"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "live-server": "^1.2.0"
+    "babel-core": "^6.22.1",
+    "babel-loader": "^6.2.10",
+    "babel-preset-es2015": "^6.22.0",
+    "css-loader": "^0.26.1",
+    "html-webpack-plugin": "^2.26.0",
+    "rimraf": "^2.5.4",
+    "style-loader": "^0.13.1",
+    "webpack": "^2.1.0-beta.25",
+    "webpack-dev-server": "^1.16.2",
+    "webpack-validator": "^2.3.0"
+  },
+  "dependencies": {
+    "babel-polyfill": "^6.22.0",
+    "backbone-events-standalone": "^0.2.7",
+    "lodash": "^4.17.4",
+    "observer": "git+https://github.com/jimenglish81/observer.git"
   }
 }
