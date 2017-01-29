@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import style from './style.css';
-import binarySearch from './binary-search';
+import binarySearch from './binary-search/algo';
 import quickSort from './quick-sort';
 
 // O(n)

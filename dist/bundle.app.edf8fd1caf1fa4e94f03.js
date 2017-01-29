@@ -61,7 +61,7 @@
 /******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 12);
+/******/ 	return __webpack_require__(__webpack_require__.s = 11);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -17198,7 +17198,7 @@ const emitter = {};
 /* harmony export (immutable) */ exports["b"] = emitter;
 
 __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.extend(emitter, __WEBPACK_IMPORTED_MODULE_1_backbone_events_standalone___default.a);
-const emit = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.partial(emitter.trigger.bind(emitter), 'msg');
+let emit = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.partial(emitter.trigger.bind(emitter), 'msg');
 
 /*
  * @param {number} target The Value in the array we wish to find the index of
@@ -17207,17 +17207,16 @@ const emit = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.partial(emitter.trig
  * @param {number} [max] Highest index to check in the array
  * @returns {number} The index of the target
  */
-function binarySearch(target, arr, min=0, max=arr.length-1, iterationCount=1) {
-  const indexesOfInterest = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.range(min, max + 1);
+function binarySearch(target, array, min=0, max=array.length-1, iterationCount=1) {
+  let indexesOfInterest = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.range(min, max + 1);
   const guessIndex = Math.floor((max + min) / 2);
-  const guessValue = arr[guessIndex];
-
-  emit(`Looking at indexes ${min} to ${max}, guessing at the midpoint index ${guessIndex}`, target, guessIndex, guessValue, indexesOfInterest);
+  const guessValue = array[guessIndex];
+  emit = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.partialRight(emit, { array, target, guessIndex, guessValue, indexesOfInterest });
 
   if (guessValue === target) {
-    emit(`Success! The target ${target} was found at index ${arr.indexOf(target)}`, target, guessIndex, guessValue, indexesOfInterest);
+    emit(`Success! The target ${target} was found at index ${array.indexOf(target)}`);
     return {
-      index: arr.indexOf(target),
+      index: array.indexOf(target),
       iterationCount,
     }
   }
@@ -17233,13 +17232,13 @@ function binarySearch(target, arr, min=0, max=arr.length-1, iterationCount=1) {
 
   if (guessValue < target) {
     min = guessIndex + 1;
-    emit(`The guess (${guessValue}) was less than the target (${target}), increasing min to index ${min}`, target, guessIndex, guessValue, indexesOfInterest);
+    emit(`The guess (${guessValue}) was less than the target (${target}), increasing min to index ${min}`);
   } else { // guess > target
     max = guessIndex - 1;
-    emit(`The guess (${guessValue}) was more than the target (${target}), lowering max to index ${max}`, target, guessIndex, guessValue, indexesOfInterest);
+    emit(`The guess (${guessValue}) was more than the target (${target}), lowering max to index ${max}`);
   }
   iterationCount++;
-  return binarySearch(target, arr, min, max, iterationCount);
+  return binarySearch(target, array, min, max, iterationCount);
 }
 
 
@@ -17906,9 +17905,78 @@ module.exports = function(module) {
 
 
 /***/ },
-/* 10 */,
-/* 11 */,
-/* 12 */
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ exports["a"] = quickSort;
+function log() {}
+// var log = console.log;
+
+function swap(a, b, arr) {
+  var firstIndex = arr.indexOf(a);
+  var secondIndex = arr.indexOf(b);
+  log('moving', b, 'toIndex', firstIndex);
+  setTimeout(() => {
+    arr[firstIndex] = b;
+  }, 1000);
+  log('moving', a, 'toIndex', secondIndex);
+  setTimeout(() => {
+    arr[secondIndex] = a;
+  }, 1000);
+
+  return arr;
+}
+
+function quickSort(arr) {
+
+  var iterationCount = 0;
+
+  /*
+   * Modifies parts of the arr between low and high
+   * @returns {Number} the next pivot location
+   */
+  function partition(arr, low, high) {
+    var pivot = arr[low];
+    var leftWall = low;
+    for (var i=low + 1; i < high; i++) {
+      iterationCount++;
+      if (arr[i] < pivot) {
+        // swap it with the element to the right of the wall
+        arr = swap(arr[i], arr[leftWall], arr);
+        // move the wall one space to the right
+        log('left wall increased to', leftWall++);
+      }
+    }
+    // Place pivot as the first element on the right of the partitioning wall.
+    swap(pivot, arr[leftWall], arr);
+    // The leftwall is the returned to reveal the splitting location for the next recurse
+    return leftWall;
+  }
+
+  function sort(arr, low, high) {
+    if (low < high) {
+      log('partitioning from', low, high);
+      let pivotLocation = partition(arr, low, high);
+      log('pivotLocation', pivotLocation);
+      log('sorting left from', low, 'to', pivotLocation);
+      // setTimeout(() => {
+        sort(arr, low, pivotLocation);
+        log('sorting right from', pivotLocation + 1, 'to', high);
+        sort(arr, pivotLocation + 1, high);
+      // }, 1000);
+    }
+    return;
+  }
+
+  sort(arr, 0, arr.length);
+  // return { iterationCount, arr };
+  return { iterationCount, arr };
+}
+
+
+/***/ },
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17916,120 +17984,102 @@ module.exports = function(module) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__style_css__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__style_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__style_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__binary_search__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__binary_search_algo__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__quick_sort__ = __webpack_require__(10);
 
 
 
 
-let _data = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.range(1, 21).map(n => n * 3); // [1,,40]
-let target = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.sample(_data); // random int, inclusive of 1 and 20
-let indexesOfInterest = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.range(0, 20) // produces [0,,19];
-const element = document.getElementById('chart_binary_search');
-const queue = [];
 
-const states = {
-  found: {
-    color: 'lightseagreen',
-    annotation: 'Found it!',
-  },
-  target: {
-    color: 'lightgreen',
-    annotation: 'Target',
-  },
-  guess: {
-    color: 'lightpink',
-    annotation: 'Guess',
-  },
-  notOfInterest: {
-    color: 'lightgrey',
-    annotation: '',
-  },
-  neutral: {
-    color: 'lightblue',
-    annotation: '',
+// O(n)
+function itemInList(itemToVerify, list) {
+  let iterationCount = 0;
+  for (let item of list) {
+    iterationCount++;
+    // example solution to verify the item, it won't execute in this demo
+    if (itemToVerify == item) {
+      return true;
+    }
   }
-};
-
-const options = {
-  title: `Searching for item with the value ${target}`,
-  legend: 'none',
-  fontName: 'Times-Roman',
-  hAxis: {
-    title: 'index',
-    gridlines: {
-      count: 20
-    } ,
-    baselineColor: '#CCC',
-  },
-  vAxis: {
-    title: 'value',
-    baselineColor: '#CCC',
-  },
-};
-
-__WEBPACK_IMPORTED_MODULE_2__binary_search__["b" /* emitter */].on('msg', (msg, target, guessIndex, guessValue, indexesOfInterest) => {
-  const log = document.querySelector('p.log');
-  const p = document.createElement('p');
-  p.innerHTML = msg;
-  queue.push(() => {
-    const data = google.visualization.arrayToDataTable(processArray(_data, target, guessIndex, guessValue, indexesOfInterest));
-    const chart = new google.visualization.ColumnChart(element);
-    chart.draw(data, options);
-    // log.appendChild(p);
-  });
-});
-
-/*
- * @param value {number} The value in the array slot
- * @param i {number} A slot in the array
- * @param target {number} The index we are trying to find
- * @param guess {number} The index we guessed the value might be at
- */
-function getState(value, i, target, guessIndex, guessValue, indexesOfInterest) {
-  if (guessValue === target && guessIndex === i) {
-    return states.found;
-  } else if (value === target) {
-    return states.target;
-  } else if (indexesOfInterest && indexesOfInterest.indexOf(i) === -1) {
-    return states.notOfInterest;
-  } else if (i == guessIndex) {
-    return states.guess;
-  }
-  return states.neutral;
+  return iterationCount;
 }
 
-function processArray(arr, target, guessIndex, guessValue, indexesOfInterest) {
-  return [[
-    'value',
-    'index',
-    { role: 'style' },
-    { role: 'annotation' },
-  ]].concat(arr.map((value, i) => {
-    const { color, annotation } = getState(value, i, target, guessIndex, guessValue, indexesOfInterest);
-    return [i, value, color, annotation];
-  }));
+// O(n^2)
+function allCombinations(list) {
+  let iterationCount = 0;
+  const results = [];
+  for (let item of list) {
+    for (let innerItem of list) {
+      results.push([item, innerItem]);
+      iterationCount++;
+    }
+  }
+  // We'd usually return results, but seen as we are just interested in efficiency...
+  return iterationCount;
 }
 
-function init() {
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
+function oN(n) {
+  const results = [['Operations', 'Array length']];
+  for (let i = 0; i < n+1; i++) {
+    results.push([i, itemInList(i, new Array(i))]);
+  }
+  return results;
+}
+
+function oNTwo(n) {
+  const results = [['Operations', 'Array length']];
+  for (let i = 0; i < n+1; i++) {
+    results.push([i, allCombinations(new Array(i))]);
+  }
+  return results;
+}
+
+function oLogN(n) {
+  const results = [['Operations', 'Array length']];
+  for (let i = 2; i < n+3; i++) {
+    const arr = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.range(1, i);
+    results.push([i-2, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__binary_search_algo__["a" /* default */])(0, arr).iterationCount]);
+  }
+  return results;
+}
+
+function oNLogN(n) {
+  const results = [['Operations', 'Array length']];
+  for (let i = 1; i < n+1; i++) {
+    results.push([i, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__quick_sort__["a" /* default */])(new Array(i)).iterationCount]);
+  }
+  return results;
+}
+
+function chart(element, results) {
   google.charts.load('current', {'packages':['corechart']});
-  google.charts.setOnLoadCallback(() => {
-    const data = google.visualization.arrayToDataTable(processArray(_data, target));
-    const chart = new google.visualization.ColumnChart(element);
+  google.charts.setOnLoadCallback(drawChart);
+  function drawChart() {
+    const data = google.visualization.arrayToDataTable(results);
+    const options = {
+      fontName: 'Times-Roman',
+      hAxis: {title: 'Length of array'},
+      vAxis: {title: 'Operations'},
+      legend: 'none'
+    };
+    const chart = new google.visualization.LineChart(element);
     chart.draw(data, options);
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__binary_search__["a" /* default */])(target, _data);
-    const interval = setInterval(() => {
-      if (queue.length) {
-        queue.shift()();
-      } else {
-        clearInterval(interval);
-      }
-    }, 1000);
-  });
+  }
 }
 
-window.onload = init;
+window.onload = function() {
+  chart(document.getElementById('chart_div_on'), oN(200));
+  window.binarySearch = __WEBPACK_IMPORTED_MODULE_2__binary_search_algo__["a" /* default */];
+  chart(document.getElementById('chart_div_on_two'), oNTwo(200));
+  chart(document.getElementById('chart_div_o_log_n'), oLogN(200));
+  chart(document.getElementById('chart_div_o_n_log_n'), oNLogN(20));
+}
 
 
 /***/ }
 /******/ ]);
-//# sourceMappingURL=bundle.binarySearch.7b42124635f6bcd145d2.js.map
+//# sourceMappingURL=bundle.app.edf8fd1caf1fa4e94f03.js.map

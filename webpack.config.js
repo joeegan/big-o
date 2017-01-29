@@ -14,7 +14,7 @@ module.exports = (env) => {
   return {
     entry: {
       app: './app.js',
-      binarySearch: './binary-search-animated.js',
+      binarySearch: './binary-search/animation.js',
     },
     output: {
       path: path.resolve(__dirname, 'dist'),
@@ -32,8 +32,8 @@ module.exports = (env) => {
         chunks: ['app'],
       }),
       new HtmlWebpackPlugin({
-        template: 'binary-search.html',
-        filename: 'binary-search.html',
+        template: 'binary-search/index.html',
+        filename: 'binary-search/index.html',
         chunks: ['binarySearch'],
       }),
       new webpack.DefinePlugin({
