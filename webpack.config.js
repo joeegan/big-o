@@ -15,6 +15,7 @@ module.exports = (env) => {
     entry: {
       app: './app.js',
       binarySearch: './binary-search/animation.js',
+      selectionSort: './selection-sort/animation.js',
     },
     output: {
       path: path.resolve(__dirname, 'dist'),
@@ -35,6 +36,11 @@ module.exports = (env) => {
         template: 'binary-search/index.html',
         filename: 'binary-search/index.html',
         chunks: ['binarySearch'],
+      }),
+      new HtmlWebpackPlugin({
+        template: 'selection-sort/index.html',
+        filename: 'selection-sort/index.html',
+        chunks: ['selectionSort'],
       }),
       new webpack.DefinePlugin({
         'process.env': {
