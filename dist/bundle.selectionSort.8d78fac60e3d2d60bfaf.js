@@ -61,7 +61,7 @@
 /******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 11);
+/******/ 	return __webpack_require__(__webpack_require__.s = 14);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -17153,7 +17153,7 @@
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), __webpack_require__(9)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(8)(module)))
 
 /***/ },
 /* 1 */
@@ -17162,10 +17162,10 @@
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(5);
+var content = __webpack_require__(4);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(7)(content, {});
+var update = __webpack_require__(6)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -17183,67 +17183,6 @@ if(false) {
 
 /***/ },
 /* 2 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_backbone_events_standalone__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_backbone_events_standalone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_backbone_events_standalone__);
-/* harmony export (immutable) */ exports["a"] = binarySearch;
-
-
-
-const emitter = {};
-/* harmony export (immutable) */ exports["b"] = emitter;
-
-__WEBPACK_IMPORTED_MODULE_0_lodash___default.a.extend(emitter, __WEBPACK_IMPORTED_MODULE_1_backbone_events_standalone___default.a);
-let emit = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.partial(emitter.trigger.bind(emitter), 'msg');
-
-/*
- * @param {number} target The Value in the array we wish to find the index of
- * @param {number[]} arr The ordered list of numbers
- * @param {number} [min] Lowest index to check in the array
- * @param {number} [max] Highest index to check in the array
- * @returns {number} The index of the target
- */
-function binarySearch(target, array, min=0, max=array.length-1, iterationCount=1) {
-  let indexesOfInterest = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.range(min, max + 1);
-  const guessIndex = Math.floor((max + min) / 2);
-  const guessValue = array[guessIndex];
-  emit = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.partialRight(emit, { array, target, guessIndex, guessValue, indexesOfInterest });
-
-  if (guessValue === target) {
-    emit(`Success! The target ${target} was found at index ${array.indexOf(target)}`);
-    return {
-      index: array.indexOf(target),
-      iterationCount,
-    }
-  }
-
-  if (max === 0 || max == 1
-  || (indexesOfInterest.length === 1 && guessValue !== target)) {
-    // it's not in the array
-    return {
-      index: null,
-      iterationCount,
-    }
-  }
-
-  if (guessValue < target) {
-    min = guessIndex + 1;
-    emit(`The guess (${guessValue}) was less than the target (${target}), increasing min to index ${min}`);
-  } else { // guess > target
-    max = guessIndex - 1;
-    emit(`The guess (${guessValue}) was more than the target (${target}), lowering max to index ${max}`);
-  }
-  iterationCount++;
-  return binarySearch(target, array, min, max, iterationCount);
-}
-
-
-/***/ },
-/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 /**
@@ -17525,17 +17464,17 @@ function binarySearch(target, array, min=0, max=array.length-1, iterationCount=1
 
 
 /***/ },
-/* 4 */
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(3);
+module.exports = __webpack_require__(2);
 
 
 /***/ },
-/* 5 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(6)();
+exports = module.exports = __webpack_require__(5)();
 // imports
 
 
@@ -17546,7 +17485,7 @@ exports.push([module.i, "body {\n  text-align: center;\n  margin: 0;\n}\n\nh1 {\
 
 
 /***/ },
-/* 6 */
+/* 5 */
 /***/ function(module, exports) {
 
 /*
@@ -17602,7 +17541,7 @@ module.exports = function() {
 
 
 /***/ },
-/* 7 */
+/* 6 */
 /***/ function(module, exports) {
 
 /*
@@ -17854,7 +17793,7 @@ function updateLink(linkElement, obj) {
 
 
 /***/ },
-/* 8 */
+/* 7 */
 /***/ function(module, exports) {
 
 var g;
@@ -17879,7 +17818,7 @@ module.exports = g;
 
 
 /***/ },
-/* 9 */
+/* 8 */
 /***/ function(module, exports) {
 
 module.exports = function(module) {
@@ -17905,78 +17844,65 @@ module.exports = function(module) {
 
 
 /***/ },
-/* 10 */
+/* 9 */,
+/* 10 */,
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ exports["a"] = quickSort;
-function log() {}
-// var log = console.log;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_backbone_events_standalone__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_backbone_events_standalone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_backbone_events_standalone__);
+/* harmony export (immutable) */ exports["a"] = selectionSort;
 
-function swap(a, b, arr) {
-  var firstIndex = arr.indexOf(a);
-  var secondIndex = arr.indexOf(b);
-  log('moving', b, 'toIndex', firstIndex);
-  setTimeout(() => {
-    arr[firstIndex] = b;
-  }, 1000);
-  log('moving', a, 'toIndex', secondIndex);
-  setTimeout(() => {
-    arr[secondIndex] = a;
-  }, 1000);
 
+
+function swap(indexA, indexB, arr) {
+  const aValue = arr[indexA];
+  const bValue = arr[indexB];
+  // emit('moving', b, 'toIndex', firstIndex);
+  arr[indexA] = bValue;
+  // emit('moving', a, 'toIndex', secondIndex);
+  arr[indexB] = aValue;
   return arr;
 }
 
-function quickSort(arr) {
+const emitter = {};
+/* harmony export (immutable) */ exports["b"] = emitter;
 
-  var iterationCount = 0;
+__WEBPACK_IMPORTED_MODULE_0_lodash___default.a.extend(emitter, __WEBPACK_IMPORTED_MODULE_1_backbone_events_standalone___default.a);
+let emit = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.partial(emitter.trigger.bind(emitter), 'msg');
 
-  /*
-   * Modifies parts of the arr between low and high
-   * @returns {Number} the next pivot location
-   */
-  function partition(arr, low, high) {
-    var pivot = arr[low];
-    var leftWall = low;
-    for (var i=low + 1; i < high; i++) {
+function selectionSort(arr, iterationCount=1) {
+  for (let i = 0; i < arr.length; i++) {
+    const currentValue = arr[i];
+    let smallest;
+    for (let candidate = i + 1; candidate < arr.length; candidate++) {
       iterationCount++;
-      if (arr[i] < pivot) {
-        // swap it with the element to the right of the wall
-        arr = swap(arr[i], arr[leftWall], arr);
-        // move the wall one space to the right
-        log('left wall increased to', leftWall++);
+      const candidateValue = arr[candidate];
+      if (smallest) {
+        if (candidateValue < arr[smallest]) {
+          smallest = candidate;
+        }
+      } else if (candidateValue < currentValue) {
+        smallest = candidate;
       }
+      emit('smallest', { arr: arr.slice(), currentIndex: i, smallest, candidate });
     }
-    // Place pivot as the first element on the right of the partitioning wall.
-    swap(pivot, arr[leftWall], arr);
-    // The leftwall is the returned to reveal the splitting location for the next recurse
-    return leftWall;
-  }
-
-  function sort(arr, low, high) {
-    if (low < high) {
-      log('partitioning from', low, high);
-      let pivotLocation = partition(arr, low, high);
-      log('pivotLocation', pivotLocation);
-      log('sorting left from', low, 'to', pivotLocation);
-      // setTimeout(() => {
-        sort(arr, low, pivotLocation);
-        log('sorting right from', pivotLocation + 1, 'to', high);
-        sort(arr, pivotLocation + 1, high);
-      // }, 1000);
+    if (smallest) {
+      swap(i, smallest, arr);
     }
-    return;
   }
-
-  sort(arr, 0, arr.length);
-  // return { iterationCount, arr };
-  return { iterationCount, arr };
+  emit('finished', { arr: arr.slice() });
+  return { arr, iterationCount }
 }
 
 
 /***/ },
-/* 11 */
+/* 12 */,
+/* 13 */,
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17984,102 +17910,118 @@ function quickSort(arr) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__style_css__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__style_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__style_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__binary_search_algo__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__quick_sort__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__algo__ = __webpack_require__(11);
 
 
 
 
+window.onload = init;
 
-// O(n)
-function itemInList(itemToVerify, list) {
-  let iterationCount = 0;
-  for (let item of list) {
-    iterationCount++;
-    // example solution to verify the item, it won't execute in this demo
-    if (itemToVerify == item) {
-      return true;
+function init() {
+  const array = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.range(1, 50).map(n => __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.random(1,500));
+  google.charts.load('current', { 'packages': ['corechart'] });
+  google.charts.setOnLoadCallback(() => {
+    const animationQueue = setupAnimationQueue();
+    draw(array);
+    listen(animationQueue);
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__algo__["a" /* default */])(array);
+  });
+}
+
+function draw(arr, { currentIndex, smallest, candidate }={}) {
+  const element = document.getElementById('chart_selection_sort');
+  const data = google.visualization.arrayToDataTable(
+    processArray(arr, { currentIndex, smallest, candidate })
+  );
+  const chart = new google.visualization.ColumnChart(element);
+  chart.draw(data, getOptions());
+}
+
+function listen(animationQueue) {
+  __WEBPACK_IMPORTED_MODULE_2__algo__["b" /* emitter */].off('msg');
+  __WEBPACK_IMPORTED_MODULE_2__algo__["b" /* emitter */].on('msg', (msg, args) => {
+    animationQueue.push(() => {
+      const { arr, currentIndex, smallest, candidate } = args;
+      draw(arr, { currentIndex, smallest, candidate });
+    });
+  });
+}
+
+function setupAnimationQueue() {
+  const queue = [];
+  const interval = setInterval(() => {
+    if (queue.length) {
+      queue.shift()();
+    } else {
+      clearInterval(interval);
     }
+  }, 50);
+  return queue;
+}
+
+const states = {
+  smallest: {
+    color: 'lightseagreen',
+    annotation: 'Smallest',
+  },
+  currentIndex: {
+    color: 'lightgreen',
+    annotation: '',
+  },
+  candidate: {
+    color: 'lightpink',
+    annotation: '',
+  },
+  notOfInterest: {
+    color: 'lightgrey',
+    annotation: '',
+  },
+  neutral: {
+    color: 'lightblue',
+    annotation: '',
   }
-  return iterationCount;
-}
+};
 
-// O(n^2)
-function allCombinations(list) {
-  let iterationCount = 0;
-  const results = [];
-  for (let item of list) {
-    for (let innerItem of list) {
-      results.push([item, innerItem]);
-      iterationCount++;
-    }
+const getOptions = (target) => ({
+  legend: 'none',
+  fontName: 'Times-Roman',
+  hAxis: {
+    baselineColor: '#CCC',
+  },
+  vAxis: {
+    baselineColor: '#CCC',
+  },
+});
+
+function getState(i, currentIndex, smallest, candidate) {
+  if (i === smallest) {
+    return states.smallest;
   }
-  // We'd usually return results, but seen as we are just interested in efficiency...
-  return iterationCount;
-}
-
-function getRandomInt(max) {
-  return Math.floor(Math.random() * max);
-}
-
-function oN(n) {
-  const results = [['Operations', 'Array length']];
-  for (let i = 0; i < n+1; i++) {
-    results.push([i, itemInList(i, new Array(i))]);
+  if (i === currentIndex) {
+    return states.currentIndex;
   }
-  return results;
-}
-
-function oNTwo(n) {
-  const results = [['Operations', 'Array length']];
-  for (let i = 0; i < n+1; i++) {
-    results.push([i, allCombinations(new Array(i))]);
+  if (i === candidate) {
+    return states.candidate;
   }
-  return results;
-}
-
-function oLogN(n) {
-  const results = [['Operations', 'Array length']];
-  for (let i = 2; i < n+3; i++) {
-    const arr = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.range(1, i);
-    results.push([i-2, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__binary_search_algo__["a" /* default */])(0, arr).iterationCount]);
+  if (i < currentIndex) {
+    return states.notOfInterest;
   }
-  return results;
+  return states.neutral;
 }
 
-function oNLogN(n) {
-  const results = [['Operations', 'Array length']];
-  for (let i = 1; i < n+1; i++) {
-    results.push([i, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__quick_sort__["a" /* default */])(new Array(i)).iterationCount]);
-  }
-  return results;
-}
-
-function chart(element, results) {
-  google.charts.load('current', {'packages':['corechart']});
-  google.charts.setOnLoadCallback(drawChart);
-  function drawChart() {
-    const data = google.visualization.arrayToDataTable(results);
-    const options = {
-      fontName: 'Times-Roman',
-      hAxis: {title: 'Length of array'},
-      vAxis: {title: 'Operations'},
-      legend: 'none'
-    };
-    const chart = new google.visualization.LineChart(element);
-    chart.draw(data, options);
-  }
-}
-
-window.onload = function() {
-  chart(document.getElementById('chart_div_on'), oN(200));
-  window.binarySearch = __WEBPACK_IMPORTED_MODULE_2__binary_search_algo__["a" /* default */];
-  chart(document.getElementById('chart_div_on_two'), oNTwo(200));
-  chart(document.getElementById('chart_div_o_log_n'), oLogN(200));
-  chart(document.getElementById('chart_div_o_n_log_n'), oNLogN(20));
+function processArray(arr, { currentIndex, smallest, candidate }) {
+  return [[
+    'value',
+    'index',
+    { role: 'style' },
+    { role: 'annotation' },
+  ]].concat(arr.map((value, i) => {
+    const { color, annotation } = getState(i, currentIndex, smallest, candidate);
+    return [i, value, color, annotation];
+  }));
 }
 
 
 /***/ }
 /******/ ]);
-//# sourceMappingURL=bundle.app.edf8fd1caf1fa4e94f03.js.map
+//# sourceMappingURL=bundle.selectionSort.8d78fac60e3d2d60bfaf.js.map
