@@ -61,7 +61,7 @@
 /******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 14);
+/******/ 	return __webpack_require__(__webpack_require__.s = 13);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -17844,9 +17844,7 @@ module.exports = function(module) {
 
 
 /***/ },
-/* 9 */,
-/* 10 */,
-/* 11 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17854,19 +17852,9 @@ module.exports = function(module) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_backbone_events_standalone__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_backbone_events_standalone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_backbone_events_standalone__);
-/* harmony export (immutable) */ exports["a"] = selectionSort;
+/* harmony export (immutable) */ exports["a"] = binarySearch;
 
 
-
-function swap(indexA, indexB, arr) {
-  const aValue = arr[indexA];
-  const bValue = arr[indexB];
-  // emit('moving', b, 'toIndex', firstIndex);
-  arr[indexA] = bValue;
-  // emit('moving', a, 'toIndex', secondIndex);
-  arr[indexB] = aValue;
-  return arr;
-}
 
 const emitter = {};
 /* harmony export (immutable) */ exports["b"] = emitter;
@@ -17874,35 +17862,53 @@ const emitter = {};
 __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.extend(emitter, __WEBPACK_IMPORTED_MODULE_1_backbone_events_standalone___default.a);
 let emit = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.partial(emitter.trigger.bind(emitter), 'msg');
 
-function selectionSort(arr, iterationCount=1) {
-  for (let i = 0; i < arr.length; i++) {
-    const currentValue = arr[i];
-    let smallest;
-    for (let candidate = i + 1; candidate < arr.length; candidate++) {
-      iterationCount++;
-      const candidateValue = arr[candidate];
-      if (smallest) {
-        if (candidateValue < arr[smallest]) {
-          smallest = candidate;
-        }
-      } else if (candidateValue < currentValue) {
-        smallest = candidate;
-      }
-      emit('smallest', { arr: arr.slice(), currentIndex: i, smallest, candidate });
-    }
-    if (smallest) {
-      swap(i, smallest, arr);
+/*
+ * @param {number} target The Value in the array we wish to find the index of
+ * @param {number[]} arr The ordered list of numbers
+ * @param {number} [min] Lowest index to check in the array
+ * @param {number} [max] Highest index to check in the array
+ * @returns {number} The index of the target
+ */
+function binarySearch(target, array, min=0, max=array.length-1, iterationCount=1) {
+  let indexesOfInterest = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.range(min, max + 1);
+  const guessIndex = Math.floor((max + min) / 2);
+  const guessValue = array[guessIndex];
+  emit = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.partialRight(emit, { array, target, guessIndex, guessValue, indexesOfInterest });
+
+  if (guessValue === target) {
+    emit(`Success! The target ${target} was found at index ${array.indexOf(target)}`);
+    return {
+      index: array.indexOf(target),
+      iterationCount,
     }
   }
-  emit('finished', { arr: arr.slice() });
-  return { arr, iterationCount }
+
+  if (max === 0 || max == 1
+  || (indexesOfInterest.length === 1 && guessValue !== target)) {
+    // it's not in the array
+    return {
+      index: null,
+      iterationCount,
+    }
+  }
+
+  if (guessValue < target) {
+    min = guessIndex + 1;
+    emit(`The guess (${guessValue}) was less than the target (${target}), increasing min to index ${min}`);
+  } else { // guess > target
+    max = guessIndex - 1;
+    emit(`The guess (${guessValue}) was more than the target (${target}), lowering max to index ${max}`);
+  }
+  iterationCount++;
+  return binarySearch(target, array, min, max, iterationCount);
 }
 
 
 /***/ },
+/* 10 */,
+/* 11 */,
 /* 12 */,
-/* 13 */,
-/* 14 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17910,7 +17916,7 @@ function selectionSort(arr, iterationCount=1) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__style_css__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__style_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__style_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__algo__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__algo__ = __webpack_require__(9);
 
 
 
@@ -17918,31 +17924,32 @@ function selectionSort(arr, iterationCount=1) {
 window.onload = init;
 
 function init() {
-  const array = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.range(1, 50).map(n => __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.random(1,500));
+  const array = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.range(1, 21).map(n => n * 3);
+  const target = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.sample(array);
   google.charts.load('current', { 'packages': ['corechart'] });
   google.charts.setOnLoadCallback(() => {
     const animationQueue = setupAnimationQueue();
-    draw(array);
+    draw(array, target);
     listen(animationQueue);
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__algo__["a" /* default */])(array);
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__algo__["a" /* default */])(target, array);
   });
 }
 
-function draw(arr, { currentIndex, smallest, candidate }={}) {
-  const element = document.getElementById('chart_selection_sort');
+function draw(array, target, guessIndex, guessValue, indexesOfInterest) {
+  const element = document.getElementById('chart_binary_search');
   const data = google.visualization.arrayToDataTable(
-    processArray(arr, { currentIndex, smallest, candidate })
+    processArray(array, target, guessIndex, guessValue, indexesOfInterest)
   );
   const chart = new google.visualization.ColumnChart(element);
-  chart.draw(data, getOptions());
+  chart.draw(data, getOptions(target));
 }
 
 function listen(animationQueue) {
   __WEBPACK_IMPORTED_MODULE_2__algo__["b" /* emitter */].off('msg');
   __WEBPACK_IMPORTED_MODULE_2__algo__["b" /* emitter */].on('msg', (msg, args) => {
     animationQueue.push(() => {
-      const { arr, currentIndex, smallest, candidate } = args;
-      draw(arr, { currentIndex, smallest, candidate });
+      const { array, target, guessIndex, guessValue, indexesOfInterest } = args;
+      draw(array, target, guessIndex, guessValue, indexesOfInterest);
     });
   });
 }
@@ -17955,22 +17962,22 @@ function setupAnimationQueue() {
     } else {
       clearInterval(interval);
     }
-  }, 50);
+  }, 600);
   return queue;
 }
 
 const states = {
-  smallest: {
+  found: {
     color: 'lightseagreen',
-    annotation: 'Smallest',
+    annotation: 'Found it!',
   },
-  currentIndex: {
+  target: {
     color: 'lightgreen',
-    annotation: '',
+    annotation: 'Target',
   },
-  candidate: {
+  guess: {
     color: 'lightpink',
-    annotation: '',
+    annotation: 'Guess',
   },
   notOfInterest: {
     color: 'lightgrey',
@@ -17983,40 +17990,49 @@ const states = {
 };
 
 const getOptions = (target) => ({
+  title: `Searching for item with the value ${target}`,
   legend: 'none',
   fontName: 'Times-Roman',
   hAxis: {
+    title: 'index',
+    gridlines: {
+      count: 20
+    } ,
     baselineColor: '#CCC',
   },
   vAxis: {
+    title: 'value',
     baselineColor: '#CCC',
   },
 });
 
-function getState(i, currentIndex, smallest, candidate) {
-  if (i === smallest) {
-    return states.smallest;
-  }
-  if (i === currentIndex) {
-    return states.currentIndex;
-  }
-  if (i === candidate) {
-    return states.candidate;
-  }
-  if (i < currentIndex) {
+/*
+ * @param value {number} The value in the array slot
+ * @param i {number} A slot in the array
+ * @param target {number} The index we are trying to find
+ * @param guess {number} The index we guessed the value might be at
+ */
+function getState(value, i, target, guessIndex, guessValue, indexesOfInterest) {
+  if (guessValue === target && guessIndex === i) {
+    return states.found;
+  } else if (value === target) {
+    return states.target;
+  } else if (indexesOfInterest && indexesOfInterest.indexOf(i) === -1) {
     return states.notOfInterest;
+  } else if (i == guessIndex) {
+    return states.guess;
   }
   return states.neutral;
 }
 
-function processArray(arr, { currentIndex, smallest, candidate }) {
+function processArray(arr, ...args) {
   return [[
     'value',
     'index',
     { role: 'style' },
     { role: 'annotation' },
   ]].concat(arr.map((value, i) => {
-    const { color, annotation } = getState(i, currentIndex, smallest, candidate);
+    const { color, annotation } = getState(value, i, ...args);
     return [i, value, color, annotation];
   }));
 }
@@ -18024,4 +18040,4 @@ function processArray(arr, { currentIndex, smallest, candidate }) {
 
 /***/ }
 /******/ ]);
-//# sourceMappingURL=bundle.selectionSort.8d78fac60e3d2d60bfaf.js.map
+//# sourceMappingURL=bundle.binarySearch.2e92f26daca5f8dab97f.js.map

@@ -25,7 +25,6 @@ function draw(arr, { currentIndex, smallest, candidate }={}) {
 }
 
 function listen(animationQueue) {
-  emitter.off('msg');
   emitter.on('msg', (msg, args) => {
     animationQueue.push(() => {
       const { arr, currentIndex, smallest, candidate } = args;
@@ -53,19 +52,15 @@ const states = {
   },
   currentIndex: {
     color: 'lightgreen',
-    annotation: '',
   },
   candidate: {
     color: 'lightpink',
-    annotation: '',
   },
   notOfInterest: {
     color: 'lightgrey',
-    annotation: '',
   },
   neutral: {
     color: 'lightblue',
-    annotation: '',
   }
 };
 
