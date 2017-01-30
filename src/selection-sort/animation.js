@@ -5,7 +5,7 @@ import selectionSort, { emitter } from './algo';
 window.onload = init;
 
 function init() {
-  const array = _.range(1, 200).map(n => _.random(1,9999));
+  const array = _.range(1, 50).map(n => _.random(1,500));
   google.charts.load('current', { 'packages': ['corechart'] });
   google.charts.setOnLoadCallback(() => {
     const animationQueue = setupAnimationQueue();
@@ -15,11 +15,10 @@ function init() {
   });
 }
 
-function draw(array) {
+function draw(arr, { currentIndex, smallest, candidate }={}) {
   const element = document.getElementById('chart_selection_sort');
-  console.log(array);
   const data = google.visualization.arrayToDataTable(
-    processArray(array)
+    processArray(arr, { currentIndex, smallest, candidate })
   );
   const chart = new google.visualization.ColumnChart(element);
   chart.draw(data, getOptions());
@@ -29,8 +28,8 @@ function listen(animationQueue) {
   emitter.off('msg');
   emitter.on('msg', (msg, args) => {
     animationQueue.push(() => {
-      const { arr } = args;
-      draw(arr);
+      const { arr, currentIndex, smallest, candidate } = args;
+      draw(arr, { currentIndex, smallest, candidate });
     });
   });
 }
@@ -43,22 +42,22 @@ function setupAnimationQueue() {
     } else {
       clearInterval(interval);
     }
-  }, 60);
+  }, 50);
   return queue;
 }
 
 const states = {
-  found: {
+  smallest: {
     color: 'lightseagreen',
-    annotation: 'Found it!',
+    annotation: 'Smallest',
   },
-  target: {
+  currentIndex: {
     color: 'lightgreen',
-    annotation: 'Target',
+    annotation: '',
   },
-  guess: {
+  candidate: {
     color: 'lightpink',
-    annotation: 'Guess',
+    annotation: '',
   },
   notOfInterest: {
     color: 'lightgrey',
@@ -74,36 +73,37 @@ const getOptions = (target) => ({
   legend: 'none',
   fontName: 'Times-Roman',
   hAxis: {
-    title: 'index',
-    gridlines: {
-      count: 20
-    } ,
     baselineColor: '#CCC',
   },
   vAxis: {
-    title: 'value',
     baselineColor: '#CCC',
   },
 });
 
-/*
- * @param value {number} The value in the array slot
- * @param i {number} A slot in the array
- * @param target {number} The index we are trying to find
- * @param guess {number} The index we guessed the value might be at
- */
-function getState(value, i, target, guessIndex, guessValue, indexesOfInterest) {
+function getState(i, currentIndex, smallest, candidate) {
+  if (i === smallest) {
+    return states.smallest;
+  }
+  if (i === currentIndex) {
+    return states.currentIndex;
+  }
+  if (i === candidate) {
+    return states.candidate;
+  }
+  if (i < currentIndex) {
+    return states.notOfInterest;
+  }
   return states.neutral;
 }
 
-function processArray(arr, ...args) {
+function processArray(arr, { currentIndex, smallest, candidate }) {
   return [[
     'value',
     'index',
     { role: 'style' },
     { role: 'annotation' },
   ]].concat(arr.map((value, i) => {
-    const { color, annotation } = getState(value, i, ...args);
+    const { color, annotation } = getState(i, currentIndex, smallest, candidate);
     return [i, value, color, annotation];
   }));
 }

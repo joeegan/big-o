@@ -29,12 +29,12 @@ export default function selectionSort(arr, iterationCount=1) {
       } else if (candidateValue < currentValue) {
         smallest = candidate;
       }
+      emit('smallest', { arr: arr.slice(), currentIndex: i, smallest, candidate });
     }
     if (smallest) {
       swap(i, smallest, arr);
-      console.log('inside', arr);
-      emit('smallest', { arr: arr.slice() });
     }
   }
+  emit('finished', { arr: arr.slice() });
   return { arr, iterationCount }
 }
