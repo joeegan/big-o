@@ -11,9 +11,9 @@ function swap(indexA, indexB, arr) {
   return arr;
 }
 
-// export const emitter = {};
-// _.extend(emitter, Events);
-// let emit = _.partial(emitter.trigger.bind(emitter), 'msg');
+export const emitter = {};
+_.extend(emitter, Events);
+let emit = _.partial(emitter.trigger.bind(emitter), 'msg');
 
 export default function selectionSort(arr, iterationCount=1) {
   for (let i = 0; i < arr.length; i++) {
@@ -32,6 +32,8 @@ export default function selectionSort(arr, iterationCount=1) {
     }
     if (smallest) {
       swap(i, smallest, arr);
+      console.log('inside', arr);
+      emit('smallest', { arr: arr.slice() });
     }
   }
   return { arr, iterationCount }
