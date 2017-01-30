@@ -7,23 +7,25 @@
 </head>
 <body>
   <div class='group'>
-    <h1>Big-0</h1>
+    <h1>Big O</h1>
     <p class='strap'>A means to describe the efficiency of algorithms.</p>
     <p><strong>O</strong> refers to the 'order' of the function (the growth rate of its operations)</p>
   </div>
   <div class='group'>
-    <h2>O(n)</h2>
+    <h2>О(<i>n</i>)</h2>
     <p>The algorithm is as efficient as the size of its data. Also known as 'Linear'.
     <br/>i.e. <code>algo([1,2,3])</code> will operate 3 times.</p>
     <div class='chart' id='chart_div_on'></div>
   </div>
   <div class='group'>
-    <h2>O(n^2)</h2>
+    <h2>O(<i>n<sup>2</sup></i>)</h2>
     <p>This algorithm is increasing its operations <code>n * n</code>. Also known as 'Quadratic'. <br/>i.e. <code>algo([1,2,3])</code> will make 3 * 3 operations, 9.</p>
+    <p><a href='./selection-sort/index.html'>Selection search animation</a>
+
     <div class='chart' id='chart_div_on_two'></div>
   </div>
   <div class='group'>
-    <h2>O(log n)</h2>
+    <h2>O(<i>log n</i>)</h2>
     <p>This algorithm increases its operations logarthimically <code>log n</code>. Also known as 'Logarithmic'.<br/>
     O(log n) operates less times than the dataset's size.<br/>
     This is apparent in classic binary search algorithms where the dataset continuously halved.</p>
@@ -31,7 +33,7 @@
     <div class='chart' id='chart_div_o_log_n'></div>
   </div>
   <div class='group'>
-    <h2>O(n log n)</h2>
+    <h2>O(<i>n log n</i>)</h2>
     <p>This is the average complexity of a quicksort algorithm where the dataset is continuously partitioned.</p>
     <div class='chart' id='chart_div_o_n_log_n'></div>
   </div>
