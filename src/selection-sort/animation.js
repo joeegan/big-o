@@ -6,29 +6,29 @@ window.onload = init;
 
 function init() {
   const array = _.range(1, 50).map(n => _.random(1,500));
+  const element = document.getElementById('chart_selection_sort');
   google.charts.load('current', { 'packages': ['corechart'] });
   google.charts.setOnLoadCallback(() => {
     const animationQueue = setupAnimationQueue();
-    draw(array);
-    listen(animationQueue);
+    const chart = new google.visualization.ColumnChart(element);
+    draw(chart, array);
+    listen(animationQueue, chart);
     selectionSort(array);
   });
 }
 
-function draw(arr, { currentIndex, smallest, candidate }={}) {
-  const element = document.getElementById('chart_selection_sort');
+function draw(chart, arr, { currentIndex, smallest, candidate }={}) {
   const data = google.visualization.arrayToDataTable(
     processArray(arr, { currentIndex, smallest, candidate })
   );
-  const chart = new google.visualization.ColumnChart(element);
   chart.draw(data, getOptions());
 }
 
-function listen(animationQueue) {
+function listen(animationQueue, chart) {
   emitter.on('msg', (msg, args) => {
     animationQueue.push(() => {
       const { arr, currentIndex, smallest, candidate } = args;
-      draw(arr, { currentIndex, smallest, candidate });
+      draw(chart, arr, { currentIndex, smallest, candidate });
     });
   });
 }
