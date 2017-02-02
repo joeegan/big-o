@@ -1,11 +1,11 @@
-function emit() {} // TODO
+const emit = () => {}; // TODO
 
 function swap(a, b, arr) {
   const firstIndex = arr.indexOf(a);
   const secondIndex = arr.indexOf(b);
-  // emit('moving', b, 'toIndex', firstIndex);
+  emit('moving', b, 'toIndex', firstIndex);
   arr[firstIndex] = b;
-  // emit('moving', a, 'toIndex', secondIndex);
+  emit('moving', a, 'toIndex', secondIndex);
   arr[secondIndex] = a;
   return arr;
 }
@@ -20,14 +20,15 @@ export default function quickSort(arr) {
    */
   function partition(arr, low, high) {
     const pivot = arr[low];
-    const leftWall = low;
+    let leftWall = low;
     for (let i=low + 1; i < high; i++) {
       iterationCount++;
-      if (arr[i] < pivot) {
+      if (arr[i] <= pivot) {
         // swap it with the element to the right of the wall
+        emit('as', arr[i], 'is less than or equal to', pivot, '...');
         arr = swap(arr[i], arr[leftWall], arr);
         // move the wall one space to the right
-        // emit('left wall increased to', leftWall++);
+        emit('left wall increased to', leftWall++);
       }
     }
     // Place pivot as the first element on the right of the partitioning wall.
@@ -38,12 +39,12 @@ export default function quickSort(arr) {
 
   function sort(arr, low, high) {
     if (low < high) {
-      // emit('partitioning from', low, high);
+      emit('partitioning from', low, high);
       let pivotLocation = partition(arr, low, high);
-      // emit('pivotLocation', pivotLocation);
-      // emit('sorting left from', low, 'to', pivotLocation);
+      emit('pivotLocation', pivotLocation);
+      emit('sorting left from', low, 'to', pivotLocation);
       sort(arr, low, pivotLocation);
-      // emit('sorting right from', pivotLocation + 1, 'to', high);
+      emit('sorting right from', pivotLocation + 1, 'to', high);
       sort(arr, pivotLocation + 1, high);
     }
     return;
