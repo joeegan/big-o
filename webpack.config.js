@@ -2,6 +2,7 @@
 const pkg = require('./package.json');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
 const curry = require('lodash/curry');
 const ifVal = (cond, val) => !!cond ? val : undefined;
@@ -14,12 +15,14 @@ module.exports = (env) => {
   return {
     entry: {
       app: './app.js',
+      css: './style.css',
       binarySearch: './binary-search/animation.js',
       selectionSort: './selection-sort/animation.js',
     },
     output: {
       path: path.resolve(__dirname, 'dist'),
       filename: 'bundle.[name].[hash].js',
+      pathinfo: !env.prod,
     },
     resolve: {
       extensions: ['.js'],
@@ -27,7 +30,13 @@ module.exports = (env) => {
     context: path.resolve(__dirname, 'src'),
     devtool: env.prod ? 'source-map' : 'eval-source-map',
     bail: env.prod,
+    devServer: {
+      quiet: false,
+      colors: true,
+      inline: true,
+    },
     plugins: filterExists([
+      new ExtractTextPlugin('bundle.[hash].css'),
       new HtmlWebpackPlugin({
         template: 'index.html',
         chunks: ['app'],
@@ -42,12 +51,6 @@ module.exports = (env) => {
         filename: 'selection-sort/index.html',
         chunks: ['selectionSort'],
       }),
-      new webpack.DefinePlugin({
-        'process.env': {
-          NODE_ENV: JSON.stringify(NODE_ENV),
-        },
-        VERSION: JSON.stringify(pkg.version),
-      }),
       ifProd(new webpack.optimize.UglifyJsPlugin({
         compress: {
           warnings: false,
@@ -59,24 +62,18 @@ module.exports = (env) => {
       rules: [
         {
           test: /\.css$/,
-          use: [
-            'style-loader',
-            {
-              loader: 'css-loader',
-              options: { root: '.' }
-            }
-          ]
-        }
-      ],
-      loaders: [
+          use: ExtractTextPlugin.extract({
+            loader: 'css-loader',
+          }),
+        },
         {
           test: /\.jsx?$/,
-          loaders: ['babel-loader'],
+          use: ['babel-loader'],
           include: path.join(__dirname, 'src'),
         },
         {
           test: /\.jpe?g$|\.ico$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.wav$|\.mp3$/,
-          loader: 'file-loader?name=[name].[ext]',
+          use: 'file-loader?name=[name].[ext]',
         },
       ],
     },
