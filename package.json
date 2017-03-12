@@ -5,34 +5,31 @@
   "main": "app.js",
   "scripts": {
     "clean:dist": "node_modules/.bin/rimraf dist",
-    "webpack-validator": "webpack-validator webpack.config.js --env.dev",
     "start": "webpack-dev-server --config webpack.config.js --env.dev",
-    "test": "jest",
+    "test": "jest --bail",
     "build": "node_modules/.bin/webpack --config webpack.config.js --env.prod"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.22.1",
-    "babel-jest": "^18.0.0",
+    "babel-jest": "^19.0.0",
     "babel-loader": "^6.2.10",
     "babel-polyfill": "^6.22.0",
     "babel-preset-es2015": "^6.22.0",
     "css-loader": "^0.26.1",
     "extract-text-webpack-plugin": "^2.0.0-rc.3",
     "html-webpack-plugin": "^2.26.0",
-    "jest-cli": "^18.1.0",
+    "jest-cli": "^19.0.2",
     "rimraf": "^2.5.4",
     "style-loader": "^0.13.1",
     "webpack": "^2.1.0-beta.25",
-    "webpack-dev-server": "^1.16.2",
-    "webpack-validator": "^2.3.0"
+    "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
     "babel-polyfill": "^6.22.0",
     "backbone-events-standalone": "^0.2.7",
-    "lodash": "^4.17.4",
-    "observer": "git+https://github.com/jimenglish81/observer.git"
+    "lodash": "^4.17.4"
   },
   "jest": {
     "testEnvironment": "node"
