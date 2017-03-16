@@ -1,12 +1,29 @@
-const emit = () => {}; // TODO
+// const emit = () => {}; // TODO
+import { green, yellow, blue, red, cyan } from 'chalk'
+
+const emit = console.log
+
+const highlightIndex = (arr, i, j) => {
+  return `[${arr.map((n, k) => {
+    if (k == i || k == j) {
+      return cyan(`${n}`);
+    }
+    return blue(`${n}`);
+  })}]`;
+}
+
+const highlightWall = (arr, i) => {
+  return `[${arr.map((n, j) => j <= i ? blue(`${n}`) : yellow(`${n}`))}]`;
+}
 
 function swap(a, b, arr) {
+  const oldClone = arr.slice();
   const firstIndex = arr.indexOf(a);
   const secondIndex = arr.indexOf(b);
-  emit('moving', b, 'toIndex', firstIndex);
   arr[firstIndex] = b;
-  emit('moving', a, 'toIndex', secondIndex);
+  // emit('moving', b, 'toIndex', firstIndex, arr);
   arr[secondIndex] = a;
+  emit(/* 'swapped', green(b), 'with', yellow(a), */ highlightIndex(oldClone, firstIndex, secondIndex), '->', highlightIndex(arr, firstIndex, secondIndex));
   return arr;
 }
 
@@ -25,10 +42,11 @@ export default function quickSort(arr) {
       iterationCount++;
       if (arr[i] <= pivot) {
         // swap it with the element to the right of the wall
-        emit('as', arr[i], 'is less than or equal to', pivot, '...');
+        emit('as', green(arr[i]), 'is less than or equal to', green(pivot), '...');
         arr = swap(arr[i], arr[leftWall], arr);
         // move the wall one space to the right
-        emit('left wall increased to', leftWall++);
+        leftWall++;
+        emit('left wall increased to index', green(leftWall), highlightWall(arr, leftWall));
       }
     }
     // Place pivot as the first element on the right of the partitioning wall.
@@ -38,10 +56,11 @@ export default function quickSort(arr) {
   }
 
   function sort(arr, low, high) {
+    emit('sorting', blue(arr));
     if (low < high) {
-      emit('partitioning from', low, high);
+      emit('🍞  partitioning from', red(low), red(high));
       let pivotLocation = partition(arr, low, high);
-      emit('pivotLocation', pivotLocation);
+      emit('⛳️  pivotLocation', pivotLocation, highlightIndex(arr, pivotLocation));
       emit('sorting left from', low, 'to', pivotLocation);
       sort(arr, low, pivotLocation);
       emit('sorting right from', pivotLocation + 1, 'to', high);
