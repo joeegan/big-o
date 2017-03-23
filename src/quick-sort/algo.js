@@ -1,7 +1,6 @@
 // const emit = () => {}; // TODO
 import { green, yellow, blue, red, cyan } from 'chalk'
-
-const emit = console.log
+import { log as emit, destroy } from '../log'
 
 const highlightIndex = (arr, i, j) => {
   return `[${arr.map((n, k) => {
@@ -56,9 +55,9 @@ export default function quickSort(arr) {
   }
 
   function sort(arr, low, high) {
-    emit('sorting', blue(arr));
+    emit('sorting', `[${blue(arr)}]`);
     if (low < high) {
-      emit('🍞  partitioning from', red(low), red(high));
+      emit('🍞  partitioning from', red(low), 'to', red(high));
       let pivotLocation = partition(arr, low, high);
       emit('⛳️  pivotLocation', pivotLocation, highlightIndex(arr, pivotLocation));
       emit('sorting left from', low, 'to', pivotLocation);
@@ -70,5 +69,6 @@ export default function quickSort(arr) {
   }
 
   sort(arr, 0, arr.length);
+  // destroy(); --> async
   return { iterationCount, arr };
 }
