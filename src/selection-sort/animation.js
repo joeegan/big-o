@@ -1,48 +1,65 @@
-import _ from 'lodash';
-import style from '../style.css';
-import selectionSort, { emitter } from './algo';
+import _ from 'lodash'
+import style from '../style.css'
+import selectionSort, { emitter } from './algo'
 
-window.onload = init;
+window.onload = init
 
 function init() {
-  const array = _.range(1, 50).map(n => _.random(1,500));
-  const element = document.getElementById('chart_selection_sort');
-  google.charts.load('current', { 'packages': ['corechart'] });
+  const array = _.range(1, 50).map(n => _.random(1, 500))
+  const element = document.getElementById(
+    'chart_selection_sort'
+  )
+  google.charts.load('current', { packages: ['corechart'] })
   google.charts.setOnLoadCallback(() => {
-    const animationQueue = setupAnimationQueue();
-    const chart = new google.visualization.ColumnChart(element);
-    draw(chart, array);
-    listen(animationQueue, chart);
-    selectionSort(array);
-  });
+    const animationQueue = setupAnimationQueue()
+    const chart = new google.visualization.ColumnChart(
+      element
+    )
+    draw(chart, array)
+    listen(animationQueue, chart)
+    selectionSort(array)
+  })
 }
 
-function draw(chart, arr, { currentIndex, smallest, candidate }={}) {
+function draw(
+  chart,
+  arr,
+  { currentIndex, smallest, candidate } = {}
+) {
   const data = google.visualization.arrayToDataTable(
     processArray(arr, { currentIndex, smallest, candidate })
-  );
-  chart.draw(data, getOptions());
+  )
+  chart.draw(data, getOptions())
 }
 
 function listen(animationQueue, chart) {
   emitter.on('msg', (msg, args) => {
     animationQueue.push(() => {
-      const { arr, currentIndex, smallest, candidate } = args;
-      draw(chart, arr, { currentIndex, smallest, candidate });
-    });
-  });
+      const {
+        arr,
+        currentIndex,
+        smallest,
+        candidate,
+      } = args
+      draw(chart, arr, {
+        currentIndex,
+        smallest,
+        candidate,
+      })
+    })
+  })
 }
 
 function setupAnimationQueue() {
-  const queue = [];
+  const queue = []
   const interval = setInterval(() => {
     if (queue.length) {
-      queue.shift()();
+      queue.shift()()
     } else {
-      clearInterval(interval);
+      clearInterval(interval)
     }
-  }, 50);
-  return queue;
+  }, 50)
+  return queue
 }
 
 const states = {
@@ -61,10 +78,10 @@ const states = {
   },
   neutral: {
     color: 'lightblue',
-  }
-};
+  },
+}
 
-const getOptions = (target) => ({
+const getOptions = target => ({
   legend: 'none',
   fontName: 'Times-Roman',
   hAxis: {
@@ -73,32 +90,44 @@ const getOptions = (target) => ({
   vAxis: {
     baselineColor: '#CCC',
   },
-});
+})
 
 function getState(i, currentIndex, smallest, candidate) {
   if (i === smallest) {
-    return states.smallest;
+    return states.smallest
   }
   if (i === currentIndex) {
-    return states.currentIndex;
+    return states.currentIndex
   }
   if (i === candidate) {
-    return states.candidate;
+    return states.candidate
   }
   if (i < currentIndex) {
-    return states.notOfInterest;
+    return states.notOfInterest
   }
-  return states.neutral;
+  return states.neutral
 }
 
-function processArray(arr, { currentIndex, smallest, candidate }) {
-  return [[
-    'value',
-    'index',
-    { role: 'style' },
-    { role: 'annotation' },
-  ]].concat(arr.map((value, i) => {
-    const { color, annotation } = getState(i, currentIndex, smallest, candidate);
-    return [i, value, color, annotation];
-  }));
+function processArray(
+  arr,
+  { currentIndex, smallest, candidate }
+) {
+  return [
+    [
+      'value',
+      'index',
+      { role: 'style' },
+      { role: 'annotation' },
+    ],
+  ].concat(
+    arr.map((value, i) => {
+      const { color, annotation } = getState(
+        i,
+        currentIndex,
+        smallest,
+        candidate
+      )
+      return [i, value, color, annotation]
+    })
+  )
 }

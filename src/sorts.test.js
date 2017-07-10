@@ -3,17 +3,14 @@ import insertionSort from './insertion-sort/algo'
 import selectionSort from './selection-sort/algo'
 import _ from 'lodash'
 
-const jsSort = arr => arr.slice().sort((a, b) => a - b);
+const jsSort = arr => arr.slice().sort((a, b) => a - b)
 
 const testCases = [
   // [
   //   'numeric',
   //   [10,9,8,7,6,5,4,3,2,1],
   // ],
-  [
-    'duplicates',
-    [10,9,8,7,6],
-  ],
+  ['duplicates', [10, 9, 8, 7, 6]],
   // [
   //   'negatives',
   //   [1,-1,0,2],
@@ -28,11 +25,11 @@ const testCases = [
   // ],
 ]
 // const sorts = [quickSort, insertionSort, selectionSort];
-const sorts = [quickSort];
+const sorts = [quickSort]
 sorts.forEach(sort => {
   testCases.forEach(([name, arr]) => {
     test(`${sort.name} ${name}`, () => {
-      expect(sort(arr).arr).toEqual(jsSort(arr));
+      expect(sort(arr).arr).toEqual(jsSort(arr))
     })
   })
-});
+})
