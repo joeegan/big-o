@@ -1,0 +1,28 @@
+body {
+  text-align: center;
+  margin: 0;
+}
+
+h1 {
+  margin-bottom: 0;
+}
+
+p {
+  font-style: italic;
+}
+
+div.group {
+  margin-bottom: 30px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid black;
+}
+div {
+  margin: 0 auto;
+}
+
+.chart {
+  width: 900px;
+  height: 400px;
+}
+
+/*# sourceMappingURL=bundle.adeefbbb0e04aa26c3b4.css.map*/
