@@ -1,64 +1,44 @@
 import _ from 'lodash'
 import style from '../style.css'
-import search, { emitter } from './algo'
+import insertionSort, { emitter } from './algo'
 
 window.onload = init
 
 function init() {
-  const array = _.range(1, 21).map(n => n * 3)
-  const target = _.sample(array)
+  const arr = _.range(1, 50).map(n => _.random(1, 500))
+  const element = document.getElementById(
+    'chart_insertion_sort',
+  )
   google.charts.load('current', { packages: ['corechart'] })
   google.charts.setOnLoadCallback(() => {
     const animationQueue = setupAnimationQueue()
-    draw(array, target)
-    listen(animationQueue)
-    search(target, array)
+    const chart = new google.visualization.ColumnChart(
+      element,
+    )
+    draw(chart, arr)
+    listen(animationQueue, chart)
+    insertionSort(arr)
   })
 }
 
-function draw(
-  array,
-  target,
-  guessIndex,
-  guessValue,
-  indexesOfInterest
-) {
-  const element = document.getElementById(
-    'chart_binary_search'
-  )
+function draw(chart, arr, { current, comparator } = {}) {
   const data = google.visualization.arrayToDataTable(
-    processArray(
-      array,
-      target,
-      guessIndex,
-      guessValue,
-      indexesOfInterest
-    )
+    processArray(arr, {
+      current,
+      comparator,
+    }),
   )
-  const chart = new google.visualization.ColumnChart(
-    element
-  )
-  chart.draw(data, getOptions(target))
+  chart.draw(data, getOptions())
 }
 
-function listen(animationQueue) {
-  emitter.off('msg')
+function listen(animationQueue, chart) {
   emitter.on('msg', (msg, args) => {
     animationQueue.push(() => {
-      const {
-        array,
-        target,
-        guessIndex,
-        guessValue,
-        indexesOfInterest,
-      } = args
-      draw(
-        array,
-        target,
-        guessIndex,
-        guessValue,
-        indexesOfInterest
-      )
+      const { arr, current, comparator } = args
+      draw(chart, arr, {
+        current,
+        comparator,
+      })
     })
   })
 }
@@ -71,80 +51,52 @@ function setupAnimationQueue() {
     } else {
       clearInterval(interval)
     }
-  }, 600)
+  }, 1)
   return queue
 }
 
 const states = {
-  found: {
-    color: 'lightseagreen',
-    annotation: 'Found it!',
-  },
-  target: {
-    color: 'lightgreen',
-    annotation: 'Target',
-  },
-  guess: {
+  current: {
     color: 'lightpink',
-    annotation: 'Guess',
+    annotation: 'Current',
+  },
+  comparator: {
+    color: 'lightgreen',
+    annotation: 'Comparator',
   },
   notOfInterest: {
     color: 'lightgrey',
-    annotation: '',
   },
   neutral: {
     color: 'lightblue',
-    annotation: '',
   },
 }
 
 const getOptions = target => ({
-  title: `Searching for item with the value ${target}`,
   legend: 'none',
   fontName: 'Times-Roman',
   hAxis: {
-    title: 'index',
-    gridlines: {
-      count: 20,
-    },
     baselineColor: '#CCC',
   },
   vAxis: {
-    title: 'value',
     baselineColor: '#CCC',
   },
 })
 
-/*
- * @param value {number} The value in the array slot
- * @param i {number} A slot in the array
- * @param target {number} The index we are trying to find
- * @param guess {number} The index we guessed the value might be at
- */
-function getState(
-  value,
-  i,
-  target,
-  guessIndex,
-  guessValue,
-  indexesOfInterest
-) {
-  if (guessValue === target && guessIndex === i) {
-    return states.found
-  } else if (value === target) {
-    return states.target
-  } else if (
-    indexesOfInterest &&
-    indexesOfInterest.indexOf(i) === -1
-  ) {
-    return states.notOfInterest
-  } else if (i == guessIndex) {
-    return states.guess
+function getState(i, current, comparator) {
+  if (i == comparator) {
+    return states.comparator
   }
-  return states.neutral
+  if (i == current) {
+    return states.current
+  }
+  if (i < current) {
+    return states.notOfInterest
+  }
+  return states.notOfInterest
 }
 
-function processArray(arr, ...args) {
+function processArray(arr, { current, comparator }) {
   return [
     [
       'value',
@@ -155,11 +107,11 @@ function processArray(arr, ...args) {
   ].concat(
     arr.map((value, i) => {
       const { color, annotation } = getState(
-        value,
         i,
-        ...args
+        current,
+        comparator,
       )
       return [i, value, color, annotation]
-    })
+    }),
   )
 }

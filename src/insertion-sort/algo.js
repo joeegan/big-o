@@ -1,33 +1,28 @@
+import Events from 'backbone-events-standalone'
+
+export const emitter = {}
+_.extend(emitter, Events)
+const emit = _.partial(emitter.trigger.bind(emitter), 'msg')
+
 export default function insertionSort(arr) {
-  const emit = () => {}
   for (var end = 1; end < arr.length; end++) {
-    emit(`analysing range 0 to ${end} of ${arr}`)
-    // Loop over the sub array, checking the key against the preceeding elements
     for (var i = end; i >= 0; i--) {
-      var key = arr[i]
+      var current = arr[i]
       for (var j = i - 1; j >= 0; j--) {
-        var candidate = arr[j]
-        emit(
-          `i ${i}, key ${key}, j ${j}, candidate ${candidate}`
-        )
-        emit(`comparing ${key} > ${candidate}`)
-        if (key > candidate) {
-          emit(`key ${key} > candidate ${candidate}
-            so writing value ${key} to index ${j + 1}`)
-          arr[j + 1] = key
+        var comparator = arr[j]
+        emit(`comparing ${current} > ${comparator}`, {
+          arr: arr.slice(),
+          current: i,
+          comparator: j,
+        })
+        if (current > comparator) {
+          arr[j + 1] = current
           break
-        } else {
-          arr[j + 1] = candidate
-          emit(
-            `written over ${arr[j + 1]} with ${candidate}, ${arr}`
-          )
-          if (j === 0) {
-            arr[j] = key
-            emit(
-              `zeroeth in the sub array, key is ${key}`,
-              arr
-            )
-          }
+        }
+        arr[j + 1] = comparator
+        if (j === 0) {
+          arr[j] = current
+          break
         }
       }
     }
