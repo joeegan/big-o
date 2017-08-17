@@ -27,3 +27,24 @@ test('longer list', () => {
   expect(ll.tail.value).toEqual(99)
   expect(ll.tail.prev.value).toEqual(98)
 })
+
+test('unshift adds to the beginning of the list', () => {
+  const ll = new LinkedList(1, 2, 3)
+  ll.unshift(0)
+  expect(ll.head.value).toEqual(0)
+})
+
+test('toArray creates an array with the values', () => {
+  const ll = new LinkedList(1, 2, 3)
+  ll.unshift('foo')
+  ll.push('bar')
+  expect(ll.toArray()).toEqual(['foo', 1, 2, 3, 'bar'])
+})
+
+test('forEach reveals all values', () => {
+  expect.assertions(3)
+  const ll = new LinkedList(1, 2, 3)
+  ll.forEach((v, i) => {
+    expect(v).toEqual(i + 1)
+  })
+})
