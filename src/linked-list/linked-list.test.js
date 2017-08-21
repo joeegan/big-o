@@ -48,3 +48,13 @@ test('forEach reveals all values', () => {
     expect(v).toEqual(i + 1)
   })
 })
+
+test('pop removes the last element', () => {
+  const ll = new LinkedList(1, 2, 3)
+  ll.pop()
+  expect(ll.toArray()).toEqual([1, 2])
+  ll.pop()
+  expect(ll.toArray()).toEqual([1])
+  ll.pop()
+  expect(ll.toArray()).toEqual([])
+})

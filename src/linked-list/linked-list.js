@@ -35,6 +35,16 @@ export default class LinkedList {
     this.forEach((v, i) => arr.push(v))
     return arr
   }
+
+  pop() {
+    this.tail = this.tail.prev
+    if (this.tail) {
+      this.tail.next = null
+      if (this.tail.value == this.head.value) {
+        this.head = null
+      }
+    }
+  }
 }
 
 class Node {
